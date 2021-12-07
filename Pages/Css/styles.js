@@ -22,8 +22,6 @@ const styles = StyleSheet.create({
   },
   textinput: {
     height: 50,
-    borderRadius: 10,
-    borderWidth: "none",
   },
 });
 

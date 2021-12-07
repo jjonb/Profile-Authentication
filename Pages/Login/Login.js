@@ -13,7 +13,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-
+import { useRef } from "react";
+import { useFocus } from "react-native-web-hooks";
 import styles from "../Css/styles";
 
 const Login = (props) => {
@@ -28,7 +29,10 @@ const Login = (props) => {
   const login = () => {
     signInWithEmailAndPassword(props.userAuth, email, password);
   };
-
+  const ref1 = useRef(null);
+  const ref2 = useRef(null);
+  const isFocused1 = useFocus(ref1);
+  const isFocused2 = useFocus(ref2);
   useEffect(() => {
     if (props.userId !== "") {
       props.navigation.navigate("Profile");
@@ -41,14 +45,17 @@ const Login = (props) => {
   return (
     <View style={styles.container}>
       <TextInput
-        style={styles.textinput}
+        // style={isFocused && { color: "green" }}
+        ref={ref1}
+        style={[styles.textinput, isFocused1 && { outline: "none" }]}
         onChangeText={setEmail}
         value={email}
         placeholder="Email"
         onChangeText={(text) => setEmail(text)}
       />
       <TextInput
-        style={styles.textinput}
+        ref={ref2}
+        style={[styles.textinput, isFocused2 && { outline: "none" }]}
         onChangeText={setPassword}
         value={password}
         placeholder="Password"
