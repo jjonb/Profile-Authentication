@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   TouchableOpacity,
   Text,
@@ -6,35 +6,47 @@ import {
   TextInput,
   StyleSheet,
 } from "react-native";
+import styles from "../Css/styles";
 
-const Profile = () => {
+const Profile = (props) => {
+  // const signOut = () => {
+
+  // };
+
+  const signOut = () => {
+    props.userAuth.signOut();
+    // this.writeText(this.state.text);
+
+    // this.setState({
+    //   text: "",
+    // });
+  };
+
+  useEffect(() => {
+    if (props.userId === "") {
+      props.navigation.navigate("Login");
+    }
+  }, [props.userId]);
+
   return (
-    <View>
+    <View style={styles.container}>
       <TouchableOpacity style={styles.button}>
-        <Text>Profile</Text>
+        <Text style={styles.text}>Profile</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button}>
-        <Text>New Post</Text>
+        <Text style={styles.text}>New Post</Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button}>
-        <Text>Post</Text>
+        <Text style={styles.text}>Post</Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.button}>
-        <Text>Sign out</Text>
+      <TouchableOpacity style={styles.button} onPress={signOut}>
+        <Text style={styles.text}>Sign out</Text>
       </TouchableOpacity>
     </View>
   );
 };
 
 export default Profile;
-
-const styles = StyleSheet.create({
-  button: {
-    width: 50,
-    height: 70,
-    backgroundColor: "green",
-  },
-});

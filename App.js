@@ -13,30 +13,42 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Stack = createNativeStackNavigator();
 
+// const Tab = createBottomTabNavigator();
+
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState("");
 
-  const [email, setEmail] = useState("admin@admin.com");
-  const [password, setPassword] = useState("");
+  const userAuth = getAuth();
+
+  useEffect(() => {
+    onAuthStateChanged(userAuth, (user) => {
+      if (user !== null) {
+        setUserId(user.uid);
+      } else {
+        setUserId("");
+      }
+    });
+  }, []);
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="Login">
+        <Stack.Screen name="Login" options={{ headerShown: false }}>
           {(props) => (
             <Login
               {...props}
+              userAuth={userAuth}
               isLoggedIn={isLoggedIn}
               setIsLoggedIn={setIsLoggedIn}
-              email={email}
-              setEmail={setEmail}
-              password={password}
-              setPassword={setPassword}
+              userId={userId}
             ></Login>
           )}
         </Stack.Screen>
         <Stack.Screen name="Profile">
-          {(props) => <Profile {...props}></Profile>}
+          {(props) => (
+            <Profile userAuth={userAuth} userId={userId} {...props}></Profile>
+          )}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
