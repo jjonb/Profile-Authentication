@@ -35,7 +35,7 @@ const Login = (props) => {
   const isFocused2 = useFocus(ref2);
   useEffect(() => {
     if (props.userId !== "") {
-      props.navigation.navigate("Profile");
+      props.navigation.navigate("Home");
     } else {
       setEmail("");
       setPassword("");

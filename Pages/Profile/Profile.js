@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import {
   TouchableOpacity,
   Text,
@@ -7,46 +7,36 @@ import {
   StyleSheet,
 } from "react-native";
 import styles from "../Css/styles";
+import { getDatabase, ref, onValue, set } from "firebase/database";
 
 const Profile = (props) => {
-  // const signOut = () => {
+  const [name, setName] = useState("Tell us your name");
+  const [bio, setBio] = useState("Tell us about yourself.");
 
-  // };
+  const db = getDatabase();
+  const profileRef = ref(db, "profiles/" + props.userId);
 
-  const signOut = () => {
-    props.userAuth.signOut();
-    // this.writeText(this.state.text);
-
-    // this.setState({
-    //   text: "",
-    // });
+  const onSubmit = () => {
+    set(profileRef, { name: name, bio: bio }).catch((err) => console.log(err));
+    props.navigation.navigate("Home");
   };
-
-  useEffect(() => {
-    if (props.userId === "") {
-      props.navigation.navigate("Login");
-    }
-  }, [props.userId]);
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.text}>Profile</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.text}>New Post</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.text}>Post</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity style={styles.button} onPress={signOut}>
-        <Text style={styles.text}>Sign out</Text>
+      <TextInput
+        placeholder={name}
+        // value={name}
+        onChangeText={(text) => setName(text)}
+      ></TextInput>
+      <TextInput
+        placeholder={bio}
+        // value={bio}
+        onChangeText={(text) => setBio(text)}
+      ></TextInput>
+      <TouchableOpacity onPress={onSubmit} style={styles.button}>
+        <Text style={styles.text}>Submit</Text>
       </TouchableOpacity>
     </View>
   );
 };
-
 export default Profile;
