@@ -1,6 +1,4 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
 
 import Profile from "./Pages/Profile/Profile";
 import Login from "./Pages/Login/Login";
@@ -13,10 +11,7 @@ import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Stack = createNativeStackNavigator();
 
-// const Tab = createBottomTabNavigator();
-
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userId, setUserId] = useState("");
 
   const userAuth = getAuth();
@@ -36,13 +31,7 @@ function App() {
       <Stack.Navigator>
         <Stack.Screen name="Login" options={{ headerShown: false }}>
           {(props) => (
-            <Login
-              {...props}
-              userAuth={userAuth}
-              isLoggedIn={isLoggedIn}
-              setIsLoggedIn={setIsLoggedIn}
-              userId={userId}
-            ></Login>
+            <Login {...props} userAuth={userAuth} userId={userId}></Login>
           )}
         </Stack.Screen>
         <Stack.Screen name="Profile">
