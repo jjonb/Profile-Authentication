@@ -23,10 +23,6 @@ const Home = (props) => {
     }
   }, [props.userId]);
 
-  const onSubmit = () => {
-    set(profileRef, { name: name, bio: bio }).catch((err) => console.log(err));
-  };
-
   return (
     <View style={styles.container}>
       <TouchableOpacity
@@ -39,14 +35,19 @@ const Home = (props) => {
       <TouchableOpacity style={styles.button}>
         <Text
           style={styles.text}
-          onPress={() => props.navigation.navigate("Post")}
+          onPress={() => props.navigation.navigate("CreatePost")}
         >
           Create Post
         </Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button}>
-        <Text style={styles.text}>View Post</Text>
+        <Text
+          style={styles.text}
+          onPress={() => props.navigation.navigate("ViewPosts")}
+        >
+          View Posts
+        </Text>
       </TouchableOpacity>
 
       <TouchableOpacity style={styles.button} onPress={signOut}>

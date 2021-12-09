@@ -9,7 +9,8 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import "./firebase";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import Profile from "./Pages/Profile/Profile";
-import Post from "./Pages/Post/Post";
+import ViewPosts from "./Pages/Posts/ViewPosts";
+import CreatePost from "./Pages/Posts/CreatePost";
 
 const Stack = createNativeStackNavigator();
 
@@ -46,9 +47,22 @@ function App() {
             <Profile userAuth={userAuth} userId={userId} {...props}></Profile>
           )}
         </Stack.Screen>
-        <Stack.Screen name="Post">
+        <Stack.Screen name="CreatePost">
           {(props) => (
-            <Post userAuth={userAuth} userId={userId} {...props}></Post>
+            <CreatePost
+              userAuth={userAuth}
+              userId={userId}
+              {...props}
+            ></CreatePost>
+          )}
+        </Stack.Screen>
+        <Stack.Screen name="ViewPosts">
+          {(props) => (
+            <ViewPosts
+              userAuth={userAuth}
+              userId={userId}
+              {...props}
+            ></ViewPosts>
           )}
         </Stack.Screen>
       </Stack.Navigator>
