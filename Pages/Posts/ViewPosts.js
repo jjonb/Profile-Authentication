@@ -18,6 +18,7 @@ const ViewPosts = (props) => {
   useEffect(() => {
     onValue(viewPostRef, (snapshot) => {
       const retrievedPostArr = [];
+
       if (snapshot !== null) {
         const returnObject = snapshot.val();
         for (let item in returnObject) {

@@ -7,6 +7,7 @@ import {
   TextInput,
   SafeAreaView,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 
 import {
@@ -20,6 +21,7 @@ import styles from "../Css/styles";
 const Login = (props) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [notRegisteredMessage, setNotRegisteredMessage] = useState(false);
 
   const register = () => {
     createUserWithEmailAndPassword(props.userAuth, email, password);
@@ -27,7 +29,17 @@ const Login = (props) => {
   };
 
   const login = () => {
-    signInWithEmailAndPassword(props.userAuth, email, password);
+    signInWithEmailAndPassword(props.userAuth, email, password).catch((err) => {
+      console.log(err.message.includes("user-not-found"));
+      if (err.message.includes("user-not-found")) {
+        console.log("Please register");
+        setNotRegisteredMessage(true);
+        Alert.alert("Please register");
+      }
+      if (err.message.includes("wrong-password")) {
+        Alert.alert("please enter your password");
+      }
+    });
   };
   const ref1 = useRef(null);
   const ref2 = useRef(null);
@@ -39,6 +51,7 @@ const Login = (props) => {
     } else {
       setEmail("");
       setPassword("");
+      setNotRegisteredMessage(false);
     }
   }, [props.userId]);
 
@@ -61,6 +74,11 @@ const Login = (props) => {
         placeholder="Password"
         onChangeText={(text) => setPassword(text)}
       />
+      {notRegisteredMessage ? (
+        <View>
+          <Text style={{ color: "red" }}>Please Register.</Text>
+        </View>
+      ) : null}
       <TouchableOpacity style={styles.button} onPress={login}>
         <Text style={styles.text}>Sign In</Text>
       </TouchableOpacity>
