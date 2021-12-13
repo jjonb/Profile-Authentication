@@ -17,13 +17,13 @@ const ViewPosts = (props) => {
 
   useEffect(() => {
     onValue(viewPostRef, (snapshot) => {
-      const retrievedPotsArr = [];
+      const retrievedPostArr = [];
       if (snapshot !== null) {
         const returnObject = snapshot.val();
         for (let item in returnObject) {
-          retrievedPotsArr.push(returnObject[item]);
+          retrievedPostArr.push(returnObject[item]);
         }
-        setAllPosts(retrievedPotsArr);
+        setAllPosts(retrievedPostArr);
       } else {
         console.log("No posts yet");
       }
